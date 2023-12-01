@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RC4 Encryption</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form action="">
+        <input type="text" name="plain" id="plain" placeholder="Plain | Contoh : FIKOM">
+        <input type="text" name="key" id="key" placeholder="Key | Contoh : 2,3,2,3,2">
+        <div>
+            <button type="button" id="submit" onclick="get()">Encrypt</button>
+        </div>
+        
+    </form>
+    <div id="consoleLogs"></div>
+
+    <script src="script.js"></script>
+    <script>
+        function appendToConsoleLogs(message) {
+            var consoleLogsDiv = document.getElementById("consoleLogs");
+            consoleLogsDiv.innerHTML += "<p>" + message + "</p>";
+        }
+
+        function get() {
+            var plain = document.getElementById("plain").value;
+            var key = document.getElementById("key").value;
+            var numbersArray = key.split(',').map(Number);
+            var resultSpan = document.getElementById("hasil");
+            document.getElementById("consoleLogs").innerHTML = "";
+            var originalConsoleLog = console.log;
+            function logToConsole(message) {
+                originalConsoleLog(message);  
+                appendToConsoleLogs(message);
+            }
+            console.log = logToConsole;
+            let result = RC4(plain, numbersArray);
+            console.log = originalConsoleLog;
+        }
+    </script>
+</body>
+</html>
